@@ -16,6 +16,24 @@
 
 **Profesor:** John Jairo Corredor Franco, PhD
 
+> Este es el repositorio de entrega de **Luis Bueno** ([@Luis-bu](https://github.com/Luis-bu)). Parte del repositorio del equipo, [Ivarez/Proyecto-NYBigData](https://github.com/Ivarez/Proyecto-NYBigData), y conserva su historial de commits. El trabajo es de los cuatro integrantes; la sección [Aportes de Luis Bueno](#aportes-de-luis-bueno) detalla mi parte.
+
+---
+
+## Aportes de Luis Bueno
+
+### Bono de aprendizaje profundo (entrega final, +0.5)
+* Diseño e implementación del **perceptrón multicapa** con `MultilayerPerceptronClassifier` de Spark MLlib, sobre la misma pregunta, variables, pipeline y partición temporal de la regresión logística (entrenamiento 2024, validación 2025, prueba 2026-I), para que la comparación entre los dos modelos sea directa.
+* Manejo del desbalance de clases: como el MLP de MLlib no acepta `weightCol`, cada colisión fatal se replica 381 veces, el mismo factor de ponderación de la regresión logística.
+* Búsqueda de parámetros: 6 configuraciones (arquitecturas `32-16`, `64-32` y `64-32-16`, con `50` y `150` iteraciones de L-BFGS). Selección por AUPRC en validación y umbral por F1.
+* Resultado: la red `[347, 64, 32, 16, 2]` sube el AUROC en prueba de `0.5397` a `0.6020` y reduce los falsos positivos en un 63.8% frente a la regresión logística. Con 150 iteraciones las tres arquitecturas se sobreajustan.
+* Documentación del bono: sección 9 del cuaderno principal y capítulo [`11_bono_aprendizaje_profundo.tex`](RecursosLatex/secciones/11_bono_aprendizaje_profundo.tex) del informe.
+
+### Presentación ejecutiva y guion
+* Presentación de 19 diapositivas con los resultados del proyecto final, en inglés, construida a partir de las cifras del informe.
+* Guion por diapositiva y reparto entre los cuatro expositores (Andrés 1–5, Iván 6–10, Julián 11–15, Luis 16–19), con las transiciones entre cada bloque.
+* PowerPoint con el guion en las notas del expositor, para presentar con la vista del moderador. Archivos en [`Presentacion/`](Presentacion/).
+
 ---
 
 ## 1. Resumen Ejecutivo
@@ -40,7 +58,10 @@ Sobre el clúster académico de **Apache Spark v3.5.5** (`spark://10.195.34.34:7
 ├── ProyectoNYFinal.pdf                         # Documento final del informe de consultoría compilado
 ├── Notebook_Principal_NYC_BigData_con_DL.ipynb # Cuaderno principal Spark MLlib + Bono Deep Learning (MLP)
 ├── Notebook_Analisis_Exploratorio_EDA.ipynb    # Cuaderno de análisis exploratorio (EDA, Spark SQL y preguntas)
-├── Presentacion_Ejecutiva_15min.md             # Estructura y guion para sustentación ejecutiva (15 min)
+├── Presentacion/                               # Sustentación ejecutiva de 15 minutos (en inglés)
+│   ├── Final_Presentation_NYC.pptx             # PowerPoint con el guion en las notas del expositor
+│   ├── Final_Presentation_NYC.pdf              # Misma presentación en PDF
+│   └── Guion_Sustentacion.md                   # Guion completo y reparto entre los 4 expositores
 ├── README.md                                   # Documentación integral del proyecto
 ├── .gitignore                                  # Exclusión de datasets masivos (>100 MB) y archivos temporales
 └── RecursosLatex/                              # Paquete completo de fuentes LaTeX para Overleaf
@@ -90,3 +111,18 @@ El cuaderno está configurado para ejecutarse sobre el clúster académico **`cl
 3. **Bono de Aprendizaje Profundo — Perceptrón Multicapa (`MultilayerPerceptronClassifier`):**
    * Exploración de 6 configuraciones (arquitecturas `32-16`, `64-32` y `64-32-16` con `50` y `150` iteraciones L-BFGS).
    * **Mejor configuración:** 3 capas ocultas (`[347, 64, 32, 16, 2]`, `maxIter = 50`, umbral $\tau = 0.85$), que eleva el **AUROC a `0.7052` en validación y `0.6020` en prueba**, mejora el `F1` a `0.0076` y reduce en un **63.8%** los falsos positivos frente a la Regresión Logística.
+
+---
+
+## 5. Presentación Ejecutiva
+
+La sustentación dura 15 minutos y está en [`Presentacion/`](Presentacion/), en inglés, con 19 diapositivas:
+
+| Orden | Expositor | Diapositivas | Contenido |
+| :---: | :--- | :---: | :--- |
+| 1 | Andrés Felipe Díaz | 1–5 | Encargo, fuentes de datos, limpieza y hallazgo por habitante |
+| 2 | Iván Álvarez Fuenmayor | 6–10 | Preguntas de negocio 1 a 5 |
+| 3 | Julián Díaz Castro | 11–15 | Preguntas 6 y 7, preparación de datos, regresión logística y K-Means |
+| 4 | Luis Bueno | 16–19 | Bono de aprendizaje profundo, fuentes externas, plan de acción y conclusiones |
+
+El guion de cada diapositiva está en las notas del expositor del PowerPoint y en [`Guion_Sustentacion.md`](Presentacion/Guion_Sustentacion.md). Para presentar compartiendo pantalla sin que el público vea las notas: en PowerPoint para Windows, **Alt + F5** abre la vista del moderador en una ventana y se comparte solo la ventana de la presentación; en Teams, **Compartir → PowerPoint Live** muestra las notas solo a quien presenta.
